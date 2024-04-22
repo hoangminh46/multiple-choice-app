@@ -5,12 +5,13 @@ import type { RadioChangeEvent } from "antd";
 import { Radio, Space, Button, Modal } from "antd";
 import ButtonQuestion from "@/components/ButtonQuestion/ButtonQuestion";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchApiData } from "@/redux/apiSlice";
 import { AppDispatch } from "@/redux/store";
+import { useParams } from "react-router-dom";
 import { setAnswered } from "@/redux/questionSlice";
 import { Link } from "react-router-dom";
 import routes from "@/config/routes";
 import { IRootState } from "@/redux/reducers";
+import { fetchTestData } from "@/redux/testSlice";
 
 type dataTypes = {
   id: number;
@@ -21,11 +22,26 @@ type dataTypes = {
 
 export default function Exam() {
   const dispatch = useDispatch<AppDispatch>();
-  const apiData = useSelector((state: IRootState) => state.api.data);
+  const apiData = useSelector((state: IRootState) => state.test.testList);
+  const { ExamId } = useParams();
+
+  useEffect(() => {
+    dispatch(fetchTestData());
+  }, [dispatch]);
+
+  let questions: object[] | undefined = [];
+
+  const testData = apiData.find((item) => {
+    return item.id === ExamId;
+  });
+
+  if (testData) {
+    questions = testData.questions;
+  }
+
   const asnsweredList = useSelector(
     (state: IRootState) => state.question.answeredList
   );
-  const questionList = useSelector((state: IRootState) => state.api.data);
   const currentTime: number = 180;
 
   const [correctAnswer, setCorrectAnswer] = useState<number>(0);
@@ -73,8 +89,8 @@ export default function Exam() {
   function handleSubmit() {
     const listCorrectOption = [];
     const listAwsweredOption = [];
-    for (let i = 0; i < questionList!.length; i++) {
-      listCorrectOption.push(questionList![i].correctOption);
+    for (let i = 0; i < questions!.length; i++) {
+      listCorrectOption.push(questions![i].correctOption);
     }
 
     for (let i = 0; i < listCorrectOption.length; i++) {
@@ -106,10 +122,6 @@ export default function Exam() {
   }
 
   useEffect(() => {
-    dispatch(fetchApiData());
-  }, [dispatch]);
-
-  useEffect(() => {
     const calculateProgress = () => {
       const calculatedProgress =
         100 - ((currentTime - time) / currentTime) * 100;
@@ -130,7 +142,7 @@ export default function Exam() {
     }
   }
   function handleClickNext() {
-    if (currentQuestion < apiData!.length - 1) {
+    if (currentQuestion < questions!.length - 1) {
       setCurrentQuestion((prev) => prev + 1);
       setValue((prev) => prev! + 1);
     }
@@ -170,7 +182,7 @@ export default function Exam() {
             <Progress percent={progress} status="active" />
           </div>
           <div className="exam-desc">
-            {apiData!.map((item: dataTypes, index: number) => {
+            {questions!.map((item: dataTypes, index: number) => {
               if (index === currentQuestion) {
                 return (
                   <div className="exam-ques" key={index}>
@@ -204,7 +216,7 @@ export default function Exam() {
               </Button>
               <Button
                 className="exam-btn"
-                disabled={currentQuestion === apiData!.length - 1}
+                disabled={currentQuestion === questions!.length - 1}
                 onClick={handleClickNext}
               >
                 Câu sau
@@ -220,7 +232,7 @@ export default function Exam() {
         </div>
         <div className="exam-navbar">
           <div className="question-list">
-            {apiData!.map((_: dataTypes, index: number) => (
+            {questions!.map((_: dataTypes, index: number) => (
               <ButtonQuestion
                 key={index}
                 num={index}
@@ -246,12 +258,12 @@ export default function Exam() {
             <p>Số câu trả lời sai: {wrongAnswer}</p>
             <p>
               Số câu chưa trả lời:{" "}
-              {apiData!.length - correctAnswer - wrongAnswer}
+              {questions!.length - correctAnswer - wrongAnswer}
             </p>
-            <p>Tổng số câu hỏi: {apiData!.length}</p>
+            <p>Tổng số câu hỏi: {questions!.length}</p>
           </div>
           <div className="point-total">
-            <p>Điểm số: {`${correctAnswer * 10}/${apiData!.length * 10}`}</p>
+            <p>Điểm số: {`${correctAnswer * 10}/${questions!.length * 10}`}</p>
           </div>
         </div>
         <Link to={routes.dashboard}>
@@ -270,7 +282,7 @@ export default function Exam() {
       <Modal open={isModalOpenList} className="list-modal">
         <div className="exam-navbar exam-navbar-mobile">
           <div className="question-list">
-            {apiData!.map((_: dataTypes, index: number) => (
+            {questions!.map((_: dataTypes, index: number) => (
               <ButtonQuestion
                 key={index}
                 num={index}

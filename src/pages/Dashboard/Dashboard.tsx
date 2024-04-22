@@ -5,132 +5,88 @@ import TestItem from "@/components/TestItem/TestItem";
 import { Pagination } from "antd";
 import UserInfo from "@/components/UserInfo/UserInfo";
 import DrawerSide from "@/components/Drawer/Drawer";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { SearchOutlined } from "@ant-design/icons";
+import { AppDispatch } from "@/redux/store";
+import { useDispatch, useSelector } from "react-redux";
+import { IRootState } from "@/redux/reducers";
+import { fetchTestData } from "@/redux/testSlice";
 
 const { Search } = Input;
 const { Option } = Select;
 
 export default function Dashboard() {
-  const headingExam = [
-    {
-      id: 1,
-      name: "Kiểm tra an toàn bảo mật thông tin",
-      time: 7,
-      grade: 250,
-      difficult: 1,
-    },
-    {
-      id: 2,
-      name: "Kiểm tra javascript cơ bản",
-      time: 6,
-      grade: 250,
-      difficult: 1,
-    },
-    {
-      id: 3,
-      name: "Kiểm tra html/css cơ bản",
-      time: 8,
-      grade: 250,
-      difficult: 1,
-    },
-    {
-      id: 4,
-      name: "Kiểm tra reactjs cơ bản",
-      time: 10,
-      grade: 250,
-      difficult: 2,
-    },
-    {
-      id: 5,
-      name: "Kiểm tra typescript cơ bản",
-      time: 5,
-      grade: 250,
-      difficult: 1,
-    },
-    {
-      id: 6,
-      name: "Kiểm tra SCSS cơ bản",
-      time: 3,
-      grade: 250,
-      difficult: 2,
-    },
-    {
-      id: 7,
-      name: "Kiểm tra CSDL cơ bản",
-      time: 1,
-      grade: 250,
-      difficult: 3,
-    },
-    {
-      id: 8,
-      name: "Kiểm tra thuật toán cơ bản",
-      time: 4,
-      grade: 250,
-      difficult: 2,
-    },
-    {
-      id: 9,
-      name: "Kiểm tra phần cứng cơ bản",
-      time: 6,
-      grade: 250,
-      difficult: 1,
-    },
-    {
-      id: 10,
-      name: "Kiểm tra an toàn dữ liệu cơ bản",
-      time: 7,
-      grade: 250,
-      difficult: 1,
-    },
-    {
-      id: 11,
-      name: "Kiểm tra SCSS cơ bản",
-      time: 3,
-      grade: 250,
-      difficult: 2,
-    },
-    {
-      id: 12,
-      name: "Kiểm tra CSDL cơ bản",
-      time: 1,
-      grade: 250,
-      difficult: 3,
-    },
-  ];
   const pageSize = 6;
+  const dispatch = useDispatch<AppDispatch>();
+  const apiData = useSelector((state: IRootState) => state.test.testList);
   const [currentPage, setCurrentPage] = useState(1);
   const [value, setValue] = useState("");
-  const [listItem, setListItem] = useState(headingExam);
+  const [selectedOption, setSelectedOption] = useState("");
+  const [listItem, setListItem] = useState(apiData);
   const itemsPerPage = pageSize || 10;
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
   const currentItems = listItem.slice(indexOfFirstItem, indexOfLastItem);
 
-  const handlePageChange = (page) => {
-    setCurrentPage(page);
-  };
+  useEffect(() => {
+    dispatch(fetchTestData());
+  }, [dispatch]);
+
+  useEffect(() => {
+    handleSearch();
+  }, [selectedOption]);
 
   function handleSearch() {
-    const result = headingExam.filter((item) => {
-      return item.name
+    console.log(value, selectedOption);
+    const result = apiData.filter((item) => {
+      const matchesText = item.name
         .trim()
         .toLowerCase()
         .includes(value.trim().toLowerCase());
+      const matchesOption = selectedOption
+        ? item.difficult === selectedOption
+        : true;
+      console.log(matchesText);
+      console.log(matchesOption);
+      return matchesText && matchesOption;
     });
     setListItem(result);
   }
 
-  function handleSelect(e) {
-    const result = headingExam.filter((item) => {
-      return item.difficult === e;
-    });
-    if (e === 0) {
-      setListItem(headingExam);
-    } else {
-      setListItem(result);
-    }
-  }
+  useEffect(() => {
+    setListItem(apiData);
+  }, [apiData]);
+
+  const handlePageChange = (page) => {
+    setCurrentPage(page);
+  };
+
+  // function handleSearch(e) {
+  //   console.log(e);
+  //   const result = apiData.filter((item) => {
+  //     const matchesText = item.name
+  //       .trim()
+  //       .toLowerCase()
+  //       .includes(value.trim().toLowerCase());
+  //     const matchesOption = e ? item.difficult === e : true;
+  //     console.log(matchesText);
+  //     console.log(matchesOption);
+  //     return matchesText && matchesOption;
+  //   });
+  //   setListItem(result);
+  //   console.log(result);
+  // }
+
+  // function handleSelect(e) {
+  //   const result = apiData.filter((item) => {
+  //     const matchesOption = item.difficult === e;
+  //   });
+  //   if (e === 0) {
+  //     setListItem(apiData);
+  //   } else {
+  //     setListItem(result);
+  //   }
+  // }
 
   return (
     <StylesDashboard>
@@ -157,10 +113,12 @@ export default function Dashboard() {
             <div className="select-container">
               <Select
                 className="quiz-select"
-                defaultValue="Difficult"
-                onChange={(e) => handleSelect(e)}
+                value={selectedOption}
+                onChange={(e) => {
+                  setSelectedOption(e);
+                }}
               >
-                <Option value={0}>All</Option>
+                <Option value={""}>All</Option>
                 <Option value={1}>Easy</Option>
                 <Option value={2}>Medium</Option>
                 <Option value={3}>Hard</Option>
@@ -176,9 +134,9 @@ export default function Dashboard() {
             {currentItems.map((item, index) => (
               <TestItem
                 key={index}
+                id={item.id}
                 heading={item.name}
                 time={item.time}
-                grade={item.grade}
               />
             ))}
           </div>
@@ -186,7 +144,7 @@ export default function Dashboard() {
           <div className="quiz-pagination">
             <Pagination
               current={currentPage}
-              total={listItem.length}
+              total={apiData.length}
               pageSize={itemsPerPage}
               onChange={handlePageChange}
             />

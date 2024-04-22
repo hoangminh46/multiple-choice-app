@@ -10,9 +10,9 @@ import type { TableProps } from "antd";
 
 import { SearchOutlined } from "@ant-design/icons";
 import { useState, useEffect } from "react";
-import { deleteTest, setTest } from "@/redux/testSlice";
 import { Link } from "react-router-dom";
 import routes from "@/config/routes";
+import { fetchTestData } from "@/redux/testSlice";
 
 const { Search } = Input;
 
@@ -26,6 +26,7 @@ interface DataType {
 export default function TestManager() {
   const dispatch = useDispatch<AppDispatch>();
   const apiData = useSelector((state: IRootState) => state.test.testList);
+
   const [testData, setTestData] = useState(apiData);
   const [inputSearch, setInputSearch] = useState("");
   const [tableLength, setTableLength] = useState(4);
@@ -39,8 +40,8 @@ export default function TestManager() {
     },
     {
       title: "Name",
-      dataIndex: "testName",
-      key: "testName",
+      dataIndex: "name",
+      key: "name",
     },
     {
       title: "Time",
@@ -73,7 +74,7 @@ export default function TestManager() {
   }, [apiData]);
 
   useEffect(() => {
-    dispatch(setTest());
+    dispatch(fetchTestData());
   }, [dispatch]);
 
   function handleInputSearch(e) {

@@ -18,7 +18,7 @@ const publicRoutes = [
     components: TestManager,
     layout: UserLayout,
   },
-  { path: routesConfig.exam, components: Exam },
+  { path: "/exam/:ExamId", components: Exam },
 ];
 
 export { publicRoutes };
