@@ -154,6 +154,7 @@ export default function Exam() {
     }, 1000);
     if (time === 0) {
       clearInterval(timer);
+      handleSubmit();
     }
     return () => {
       clearInterval(timer);
@@ -177,7 +178,7 @@ export default function Exam() {
         <div className="exam-content">
           <div className="exam-header-mobile">Làm bài thi</div>
           <div className="exam-info">
-            <h3>Câu hỏi lý thuyết Javascript cơ bản phần 1</h3>
+            <h3>{testData ? testData.name : ""}</h3>
             <p>{formatTime(time)}</p>
             <Progress percent={progress} status="active" />
           </div>
