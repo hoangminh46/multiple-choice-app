@@ -31,12 +31,18 @@ export default function TestManager() {
   const [inputSearch, setInputSearch] = useState("");
   const [tableLength, setTableLength] = useState(4);
 
+  const [current, setCurrent] = useState(1); // Trang hiện tại
+  // const totalRows = tableLength; // Tổng số hàng
+
+  // Tính toán số thứ tự dựa trên trang hiện tại và số lượng hàng trên mỗi trang
+  const calculateIndex = (index) => (current - 1) * tableLength + index + 1;
+
   const columns: TableProps<DataType>["columns"] = [
     {
       title: "STT",
       dataIndex: "index",
       key: "index",
-      render: (text, record, index) => index + 1,
+      render: (_, __, index) => calculateIndex(index),
     },
     {
       title: "Name",
@@ -64,6 +70,7 @@ export default function TestManager() {
             alt=""
             onClick={() => {
               dispatch(deleteTestData(record.id));
+              setCurrent(1);
             }}
           />
         </div>
@@ -85,6 +92,7 @@ export default function TestManager() {
 
   function handleChange(e) {
     setTableLength(e);
+    setCurrent(1);
   }
 
   function handleSearchUser() {
@@ -96,6 +104,10 @@ export default function TestManager() {
     });
     setTestData(listSearch);
   }
+
+  const handlePaginationChange = (page) => {
+    setCurrent(page);
+  };
 
   return (
     <StylesTestManager>
@@ -131,7 +143,10 @@ export default function TestManager() {
                 rowKey="key"
                 pagination={{
                   position: ["bottomCenter"],
+                  current,
                   pageSize: tableLength,
+                  // total: totalRows,
+                  onChange: handlePaginationChange,
                 }}
                 scroll={tableLength >= 6 ? { y: 300 } : undefined}
               />
