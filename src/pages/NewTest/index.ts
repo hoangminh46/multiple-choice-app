@@ -18,6 +18,71 @@ export const StylesNewTest = styled.div`
         font-size: 20px;
         margin-bottom: 10px;
       }
+      .form-action {
+        padding: 0 80px;
+        margin-top: 30px;
+        .ant-input-group-wrapper {
+          width: 80%;
+          height: 45px;
+          .ant-input {
+            height: 45px;
+            border-radius: 0;
+          }
+        }
+        .question {
+          width: 100%;
+          box-sizing: border-box;
+          display: flex;
+          gap: 40px;
+          margin-top: 30px;
+          .question-item {
+            box-sizing: border-box;
+            width: 80%;
+            height: 420px;
+            background-color: #fff;
+            padding: 20px;
+            .question-heading {
+              text-align: center;
+              font-weight: 700;
+              font-size: 18px;
+              margin-bottom: 20px;
+            }
+          }
+        }
+        .ant-input-group-addon {
+          font-weight: 700;
+          font-size: 18px;
+          border: none;
+          background-color: transparent;
+          padding: 0 10px 0 0;
+        }
+        .btn-add {
+          display: block;
+          margin: 10px auto 0 auto;
+        }
+      }
+      .new-test-action {
+        display: flex;
+        gap: 60px;
+        align-items: center;
+        margin-top: 30px;
+        .ant-input-group-wrapper {
+          width: 25%;
+        }
+        .test-select {
+          label {
+            font-size: 18px;
+            font-weight: 700;
+            padding-right: 10px;
+          }
+        }
+        .ant-checkbox-wrapper {
+          span {
+            font-weight: 700;
+            font-size: 18px;
+          }
+        }
+      }
     }
   }
 `;

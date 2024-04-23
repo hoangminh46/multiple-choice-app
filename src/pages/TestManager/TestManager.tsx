@@ -18,7 +18,7 @@ const { Search } = Input;
 
 interface DataType {
   id: string;
-  testName: string;
+  name: string;
   time: number;
   start: number;
 }
@@ -31,10 +31,8 @@ export default function TestManager() {
   const [inputSearch, setInputSearch] = useState("");
   const [tableLength, setTableLength] = useState(4);
 
-  const [current, setCurrent] = useState(1); // Trang hiện tại
-  // const totalRows = tableLength; // Tổng số hàng
+  const [current, setCurrent] = useState(1);
 
-  // Tính toán số thứ tự dựa trên trang hiện tại và số lượng hàng trên mỗi trang
   const calculateIndex = (index) => (current - 1) * tableLength + index + 1;
 
   const columns: TableProps<DataType>["columns"] = [
