@@ -12,7 +12,7 @@ import { SearchOutlined } from "@ant-design/icons";
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import routes from "@/config/routes";
-import { fetchTestData } from "@/redux/testSlice";
+import { deleteTestData, fetchTestData } from "@/redux/testSlice";
 
 const { Search } = Input;
 
@@ -62,7 +62,9 @@ export default function TestManager() {
           <img
             src="/src/assets/images/remove.svg"
             alt=""
-            onClick={() => dispatch(deleteTest(record.id))}
+            onClick={() => {
+              dispatch(deleteTestData(record.id));
+            }}
           />
         </div>
       ),
@@ -87,7 +89,7 @@ export default function TestManager() {
 
   function handleSearchUser() {
     const listSearch = apiData.filter((item, index) => {
-      return item.testName
+      return item.name
         .trim()
         .toLowerCase()
         .includes(inputSearch.trim().toLowerCase());
@@ -126,6 +128,7 @@ export default function TestManager() {
               <Table
                 columns={columns}
                 dataSource={testData}
+                rowKey="key"
                 pagination={{
                   position: ["bottomCenter"],
                   pageSize: tableLength,

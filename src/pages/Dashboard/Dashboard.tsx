@@ -16,7 +16,7 @@ const { Search } = Input;
 const { Option } = Select;
 
 export default function Dashboard() {
-  const pageSize = 6;
+  const [pageSize, setPageSize] = useState(6);
   const dispatch = useDispatch<AppDispatch>();
   const apiData = useSelector((state: IRootState) => state.test.testList);
   const [currentPage, setCurrentPage] = useState(1);
@@ -37,7 +37,6 @@ export default function Dashboard() {
   }, [selectedOption]);
 
   function handleSearch() {
-    console.log(value, selectedOption);
     const result = apiData.filter((item) => {
       const matchesText = item.name
         .trim()
@@ -46,8 +45,6 @@ export default function Dashboard() {
       const matchesOption = selectedOption
         ? item.difficult === selectedOption
         : true;
-      console.log(matchesText);
-      console.log(matchesOption);
       return matchesText && matchesOption;
     });
     setListItem(result);
@@ -60,33 +57,6 @@ export default function Dashboard() {
   const handlePageChange = (page) => {
     setCurrentPage(page);
   };
-
-  // function handleSearch(e) {
-  //   console.log(e);
-  //   const result = apiData.filter((item) => {
-  //     const matchesText = item.name
-  //       .trim()
-  //       .toLowerCase()
-  //       .includes(value.trim().toLowerCase());
-  //     const matchesOption = e ? item.difficult === e : true;
-  //     console.log(matchesText);
-  //     console.log(matchesOption);
-  //     return matchesText && matchesOption;
-  //   });
-  //   setListItem(result);
-  //   console.log(result);
-  // }
-
-  // function handleSelect(e) {
-  //   const result = apiData.filter((item) => {
-  //     const matchesOption = item.difficult === e;
-  //   });
-  //   if (e === 0) {
-  //     setListItem(apiData);
-  //   } else {
-  //     setListItem(result);
-  //   }
-  // }
 
   return (
     <StylesDashboard>
@@ -144,7 +114,7 @@ export default function Dashboard() {
           <div className="quiz-pagination">
             <Pagination
               current={currentPage}
-              total={apiData.length}
+              total={listItem.length}
               pageSize={itemsPerPage}
               onChange={handlePageChange}
             />

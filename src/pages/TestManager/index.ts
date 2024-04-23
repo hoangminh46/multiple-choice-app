@@ -186,9 +186,9 @@ export const StylesTestManager = styled.div`
         font-weight: 500 !important;
         padding: 4px !important;
       }
-    }
-    .select-table {
-      display: none;
+      .select-table {
+        display: none;
+      }
     }
   }
   .item-action {
