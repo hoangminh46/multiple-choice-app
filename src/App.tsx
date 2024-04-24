@@ -3,6 +3,8 @@ import { GlobalStyle } from "@/style/index";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import DefaultLayout from "@/layout/defaultLayout/DefaultLayout";
 import { publicRoutes } from "@/routes";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 function App() {
   return (
@@ -32,6 +34,7 @@ function App() {
               );
             })}
           </Routes>
+          <ToastContainer />
         </div>
       </BrowserRouter>
     </React.Fragment>

@@ -4,11 +4,17 @@ import { StylesNewTest } from "@/pages/NewTest/index";
 import { AppDispatch } from "@/redux/store";
 import { useDispatch, useSelector } from "react-redux";
 import { IRootState } from "@/redux/reducers";
-import { Button, Checkbox, Input, Select } from "antd";
+import { Button, Checkbox, Input, Select, Modal } from "antd";
 import { Table } from "antd";
 import type { TableProps } from "antd";
 import { useState, useEffect } from "react";
 import { fetchTopicData } from "@/redux/topicSlice";
+import { Bounce, toast } from "react-toastify";
+import { v4 as uuidv4 } from "uuid";
+import { addTestData } from "@/redux/testSlice";
+import { CheckCircleTwoTone } from "@ant-design/icons";
+import { Link } from "react-router-dom";
+import routes from "@/config/routes";
 
 interface DataType {
   id: string;
@@ -30,6 +36,7 @@ export default function NewTest() {
   const [testName, setTestName] = useState("");
   const [testTime, setTestTime] = useState("");
   const [testDifficult, setTestDifficult] = useState(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   const calculateItemIndex = (index) => {
     return (currentPageQuestion - 1) * pageSize + index + 1;
@@ -105,10 +112,30 @@ export default function NewTest() {
   }, [groupQuestionValue]);
 
   function handleAddTest() {
-    console.log(testName);
-    console.log(testTime);
-    console.log(testDifficult);
-    console.log(selectedItems);
+    if (testName && !isNaN(Number(testTime)) && testDifficult) {
+      const data = {
+        id: uuidv4(),
+        name: testName,
+        time: testTime,
+        difficult: testDifficult,
+        start: 0,
+        questions: selectedItems,
+      };
+      dispatch(addTestData(data));
+      setIsModalOpen(true);
+    } else {
+      return toast.error("Mời bạn nhập đúng dữ kiệu!!!", {
+        position: "top-right",
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+        transition: Bounce,
+      });
+    }
   }
 
   const handlePageQuestionChange = (page) => {
@@ -164,12 +191,14 @@ export default function NewTest() {
               addonBefore="Test name:"
               value={testName}
               onChange={(e) => setTestName(e.target.value)}
+              placeholder="Nhập tên test..."
             />
             <div className="new-test-action">
               <Input
                 addonBefore="Time:"
                 value={testTime}
                 onChange={(e) => setTestTime(e.target.value)}
+                placeholder="Nhập thời gian (phút)..."
               />
               <div className="test-select">
                 <label htmlFor="">Độ khó:</label>
@@ -247,6 +276,15 @@ export default function NewTest() {
             </Button>
           </div>
         </div>
+        <Modal open={isModalOpen} className="modal-success">
+          <div className="modal-heading">
+            <CheckCircleTwoTone twoToneColor="#52c41a" className="modal-icon" />
+            <p>Thêm mới test thành công !!!</p>
+          </div>
+          <Link to={routes.testManager}>
+            <Button>Về trang Test Manager</Button>
+          </Link>
+        </Modal>
       </div>
     </StylesNewTest>
   );

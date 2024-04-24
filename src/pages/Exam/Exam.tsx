@@ -42,13 +42,13 @@ export default function Exam() {
   const asnsweredList = useSelector(
     (state: IRootState) => state.question.answeredList
   );
-  const currentTime: number = 180;
 
   const [correctAnswer, setCorrectAnswer] = useState<number>(0);
   const [wrongAnswer, setWrongAnswer] = useState<number>(0);
   const [currentQuestion, setCurrentQuestion] = useState(0);
-  const [time, setTime] = useState(currentTime);
   const [progress, setProgress] = useState(0);
+  const [examTime, setExamTime] = useState(testData ? testData.time * 60 : 10);
+  const [time, setTime] = useState(examTime);
   const [value, setValue] = useState<number | null>(0);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isModalOpenConfirm, setIsModalOpenConfirm] = useState(false);
@@ -79,7 +79,7 @@ export default function Exam() {
 
   function handleReload() {
     setValue(0);
-    setTime(currentTime);
+    setTime(examTime);
     setCurrentQuestion(0);
     setCorrectAnswer(0);
     setWrongAnswer(0);
@@ -122,9 +122,15 @@ export default function Exam() {
   }
 
   useEffect(() => {
+    if (testData) {
+      setExamTime(testData.time * 60);
+      setTime(testData.time * 60);
+    }
+  }, [testData]);
+
+  useEffect(() => {
     const calculateProgress = () => {
-      const calculatedProgress =
-        100 - ((currentTime - time) / currentTime) * 100;
+      const calculatedProgress = 100 - ((examTime - time) / examTime) * 100;
       setProgress(calculatedProgress);
     };
     calculateProgress();

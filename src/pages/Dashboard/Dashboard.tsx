@@ -101,14 +101,20 @@ export default function Dashboard() {
             </div>
           </div>
           <div className="quiz-list">
-            {currentItems.map((item, index) => (
-              <TestItem
-                key={index}
-                id={item.id}
-                heading={item.name}
-                time={item.time}
-              />
-            ))}
+            {currentItems.map((item, index) => {
+              if (item.questions.length !== 0) {
+                return (
+                  <TestItem
+                    key={index}
+                    id={item.id}
+                    heading={item.name}
+                    time={item.time}
+                  />
+                );
+              } else {
+                return null;
+              }
+            })}
           </div>
 
           <div className="quiz-pagination">

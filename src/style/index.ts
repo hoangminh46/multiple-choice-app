@@ -292,4 +292,108 @@ export const GlobalStyle = createGlobalStyle`
         background-color: #fff !important;
         border: 1px solid #dfe3e8 !important;
       }
+      .modal-success {
+        text-align: center;
+        .modal-heading{
+          display: flex;
+          gap: 10px;
+          align-items: center;
+          .modal-icon{
+            font-size: 40px;
+          }
+          p{
+            font-size: 24px;
+          }
+        }
+        .ant-modal-footer {
+          display: none;
+        }
+        .ant-btn{
+          display: inline-block;
+          margin-top: 30px;
+          font-size: 20px;
+          height: 40px;
+        }
+      }
+      .modal-edit-test{
+        top: 30px;
+        
+        .form-action {
+          padding: 0 80px;
+          .new-test-action {
+            display: flex;
+            gap: 60px;
+            align-items: center;
+            margin-top: 20px;
+            .ant-input-group-wrapper {
+              width: 25%;
+            }
+            .test-select {
+              label {
+                font-size: 18px;
+                font-weight: 700;
+                padding-right: 10px;
+              }
+            }
+            .ant-checkbox-wrapper {
+              span {
+                font-weight: 700;
+                font-size: 18px;
+              }
+            }
+          }
+          .ant-input-group-wrapper {
+            width: 80%;
+            height: 45px;
+            .ant-input {
+              height: 45px;
+              border-radius: 0;
+            }
+          }
+          .question {
+            width: 100%;
+            box-sizing: border-box;
+            display: flex;
+            gap: 40px;
+            margin-top: 30px;
+            .question-item {
+              box-sizing: border-box;
+              width: 80%;
+              height: 410px;
+              background-color: #fff;
+              padding: 20px;
+              th,
+              td {
+                padding: 10px;
+              }
+              .question-heading {
+                text-align: center;
+                font-weight: 700;
+                font-size: 18px;
+                margin-bottom: 14px;
+              }
+            }
+          }
+          .ant-input-group-addon {
+            font-weight: 700;
+            font-size: 18px;
+            border: none;
+            background-color: transparent;
+            padding: 0 10px 0 0;
+          }
+          .btn-list{
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-top: 20px;
+            gap: 20px;
+          }
+          .btn-add {
+            border-radius: 0px;
+            span {
+              font-weight: 700;
+            }
+          }
+        }
+      }
 `;

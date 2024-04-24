@@ -35,6 +35,16 @@ export const deleteTestData = createAsyncThunk(
   }
 );
 
+export const addTestData = createAsyncThunk("test/addData", async (data) => {
+  await axios.post(`${apiUrl}/tests`, data);
+  return data;
+});
+
+export const editTestData = createAsyncThunk("test/editData", async (data) => {
+  await axios.put(`${apiUrl}/tests/${data.id}`, data);
+  return data;
+});
+
 const testSlice = createSlice({
   name: "test",
   initialState,
@@ -42,16 +52,25 @@ const testSlice = createSlice({
   extraReducers: (builder) => {
     builder.addCase(fetchTestData.fulfilled, (state, action) => {
       state.testList = action.payload;
-    }),
-      builder.addCase(deleteTestData.fulfilled, (state, action) => {
-        const id = action.payload;
-        console.log(id);
-        const index = state.testList.findIndex((item) => item.id === id);
-
-        const deletedState = state.testList;
-        deletedState.splice(index, 1);
-        state.testList = deletedState;
-      });
+    });
+    builder.addCase(deleteTestData.fulfilled, (state, action) => {
+      const id = action.payload;
+      const index = state.testList.findIndex((item) => item.id === id);
+      const deletedState = state.testList;
+      deletedState.splice(index, 1);
+      state.testList = deletedState;
+    });
+    builder.addCase(addTestData.fulfilled, (state, action) => {
+      state.testList.push(action.payload);
+    });
+    builder.addCase(editTestData.fulfilled, (state, action) => {
+      const editItemIndex = state.testList.findIndex(
+        (item) => item.id === action.payload.id
+      );
+      const editedTest = state.testList;
+      editedTest.splice(editItemIndex, 1, action.payload);
+      state.testList = editedTest;
+    });
   },
 });
 

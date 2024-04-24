@@ -20,7 +20,7 @@ export const StylesNewTest = styled.div`
       }
       .form-action {
         padding: 0 80px;
-        margin-top: 30px;
+        margin-top: 20px;
         .ant-input-group-wrapper {
           width: 80%;
           height: 45px;
@@ -38,14 +38,18 @@ export const StylesNewTest = styled.div`
           .question-item {
             box-sizing: border-box;
             width: 80%;
-            height: 420px;
+            height: 410px;
             background-color: #fff;
             padding: 20px;
+            th,
+            td {
+              padding: 10px;
+            }
             .question-heading {
               text-align: center;
               font-weight: 700;
               font-size: 18px;
-              margin-bottom: 20px;
+              margin-bottom: 14px;
             }
           }
         }
@@ -58,14 +62,18 @@ export const StylesNewTest = styled.div`
         }
         .btn-add {
           display: block;
-          margin: 10px auto 0 auto;
+          margin: 16px auto 0 auto;
+          border-radius: 0px;
+          span {
+            font-weight: 700;
+          }
         }
       }
       .new-test-action {
         display: flex;
         gap: 60px;
         align-items: center;
-        margin-top: 30px;
+        margin-top: 20px;
         .ant-input-group-wrapper {
           width: 25%;
         }
