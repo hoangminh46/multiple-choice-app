@@ -1,3 +1,4 @@
+import { device } from "@/style/breakpoint";
 import styled from "styled-components";
 
 export const StylesNewTest = styled.div`
@@ -88,6 +89,42 @@ export const StylesNewTest = styled.div`
           span {
             font-weight: 700;
             font-size: 18px;
+          }
+        }
+      }
+    }
+    @media ${device.lg} {
+      .manager-content {
+        .form-action {
+          padding: 0;
+        }
+      }
+    }
+    @media ${device.sm} {
+      .manager-content {
+        padding: 10px;
+      }
+      h3 {
+        display: none;
+      }
+      .form-action {
+        margin-top: 0 !important;
+        .new-test-action {
+          flex-direction: column;
+          align-items: flex-start;
+          gap: 10px;
+          .ant-input-group-wrapper {
+            width: 80%;
+          }
+        }
+        .question {
+          margin-top: 10px !important;
+          flex-direction: column;
+          .question-item {
+            height: 150px !important;
+            .question-heading {
+              margin-bottom: 0;
+            }
           }
         }
       }
