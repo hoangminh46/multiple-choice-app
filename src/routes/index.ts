@@ -2,6 +2,7 @@ import UserManager from "@/components/UserManager/UserManager";
 import routesConfig from "@/config/routes";
 import UserLayout from "@/layout/userLayout/UserLayout";
 import Dashboard from "@/pages/Dashboard/Dashboard";
+import EditTopic from "@/pages/EditTopic/EditTopic";
 import Exam from "@/pages/Exam/Exam";
 import Home from "@/pages/Home/Home";
 import ListTopic from "@/pages/ListTopic/ListTopic";
@@ -22,6 +23,11 @@ const publicRoutes = [
   },
   { path: "/exam/:ExamId", components: Exam },
   { path: routesConfig.listTopic, components: ListTopic, layout: UserLayout },
+  {
+    path: `${routesConfig.listTopic}/:TopicId`,
+    components: EditTopic,
+    layout: UserLayout,
+  },
   { path: routesConfig.newTopic, components: NewTopic, layout: UserLayout },
 ];
 

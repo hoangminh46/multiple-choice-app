@@ -4,7 +4,7 @@ import { StylesTestManager } from "@/pages/TestManager/index";
 import { AppDispatch } from "@/redux/store";
 import { useDispatch, useSelector } from "react-redux";
 import { IRootState } from "@/redux/reducers";
-import { Button, Input, Select, Modal } from "antd";
+import { Button, Input, Select } from "antd";
 import { Table } from "antd";
 import type { TableProps } from "antd";
 
@@ -13,19 +13,16 @@ import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import routes from "@/config/routes";
 import { Bounce, toast } from "react-toastify";
-import {
-  deleteTopicData,
-  editTopicData,
-  fetchTopicData,
-} from "@/redux/topicSlice";
+import { deleteTopicData, fetchTopicData } from "@/redux/topicSlice";
 
 const { Search } = Input;
 
 interface DataType {
   id: string;
   name: string;
-  time: number;
-  start: number;
+  difficult: number;
+  description: string;
+  questions: object[];
 }
 
 const { Option } = Select;
@@ -38,12 +35,7 @@ export default function ListTopic() {
 
   const [inputSearch, setInputSearch] = useState("");
   const [tableLength, setTableLength] = useState(4);
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const [testName, setTestName] = useState("");
-  const [testDesc, setTestDesc] = useState("");
-  const [testDifficult, setTestDifficult] = useState(null);
   const [topicData, setTopicData] = useState([]);
-  const [currentItemID, setCurrentItemID] = useState("");
 
   const [current, setCurrent] = useState(1);
 
@@ -63,22 +55,26 @@ export default function ListTopic() {
     },
     {
       title: "Difficult",
-      dataIndex: "difficult",
       key: "difficult",
+      render: (text, record) => (
+        <p>
+          {record.difficult == 1 ? "Dễ" : record.difficult == 2 ? "Vừa" : "Khó"}
+        </p>
+      ),
+    },
+    {
+      title: "Total Question",
+      key: "total",
+      render: (text, record) => <p>{record.questions.length}</p>,
     },
     {
       title: "Action",
       key: "action",
       render: (text, record) => (
         <div className="item-action">
-          <img
-            src="/src/assets/images/pencil.svg"
-            alt=""
-            onClick={() => {
-              handleOpenEdit(record);
-              setIsModalOpen(true);
-            }}
-          />
+          <Link to={`${routes.listTopic}/${record.id}`} className="item-name">
+            <img src="/src/assets/images/pencil.svg" alt="" />
+          </Link>
           <img
             src="/src/assets/images/remove.svg"
             alt=""
@@ -134,53 +130,6 @@ export default function ListTopic() {
     setCurrent(page);
   };
 
-  function handleChangeDifficult(value) {
-    setTestDifficult(value);
-  }
-
-  function handleOpenEdit(item) {
-    setTestName(item.name);
-    setTestDesc(item.description);
-    setTestDifficult(item.difficult);
-    setCurrentItemID(item.id);
-  }
-
-  function handleEditTopic() {
-    if (testName && testDesc && testDifficult) {
-      const data = {
-        id: currentItemID,
-        name: testName,
-        difficult: testDifficult,
-        description: testDesc,
-      };
-      dispatch(editTopicData(data));
-      setIsModalOpen(false);
-      toast.success("Sửa thành công!!!", {
-        position: "top-right",
-        autoClose: 3000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: "light",
-        transition: Bounce,
-      });
-    } else {
-      return toast.error("Mời bạn nhập đúng dữ kiệu!!!", {
-        position: "top-right",
-        autoClose: 3000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: "light",
-        transition: Bounce,
-      });
-    }
-  }
-
   return (
     <StylesTestManager>
       <div className="user-manager">
@@ -235,51 +184,6 @@ export default function ListTopic() {
             </div>
           </div>
         </div>
-        <Modal open={isModalOpen} className="modal-edit modal-edit-test">
-          <div className="form-action">
-            <div className="new-topic-action">
-              <Input
-                addonBefore="Topic name:"
-                value={testName}
-                onChange={(e) => setTestName(e.target.value)}
-                placeholder="Nhập tên test..."
-              />
-            </div>
-            <div className="new-test-action">
-              <div className="test-select">
-                <label htmlFor="">Độ khó:</label>
-                <Select
-                  value={testDifficult}
-                  style={{ width: 120 }}
-                  onChange={handleChangeDifficult}
-                  options={[
-                    { value: "disabled", label: "Select", disabled: true },
-                    { value: 1, label: "Dễ" },
-                    { value: 2, label: "Vừa" },
-                    { value: 3, label: "Khó" },
-                  ]}
-                />
-              </div>
-            </div>
-            <div className="new-topic-action">
-              <Input
-                addonBefore="Description:"
-                value={testDesc}
-                onChange={(e) => setTestDesc(e.target.value)}
-                placeholder="Nhập description..."
-              />
-            </div>
-
-            <div className="btn-list">
-              <Button className="btn-add" onClick={() => setIsModalOpen(false)}>
-                Huỷ
-              </Button>
-              <Button className="btn-add" onClick={handleEditTopic}>
-                Sửa test
-              </Button>
-            </div>
-          </div>
-        </Modal>
       </div>
     </StylesTestManager>
   );

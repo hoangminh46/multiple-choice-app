@@ -33,12 +33,12 @@ export default function UserNavbar({ classID }: { classID?: boolean }) {
             </div>
           </NavLink>
           <NavLink
-            to={routes.testQuiz}
+            to={routes.listTopic}
             className={({ isActive }) => (isActive ? "active-nav" : "")}
           >
             <div className="user-action">
               <TestQuizIcon />
-              <p>Test Quiz</p>
+              <p>Topic Manager</p>
             </div>
           </NavLink>
         </div>
