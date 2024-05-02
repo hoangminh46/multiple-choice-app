@@ -342,6 +342,9 @@ export const GlobalStyle = createGlobalStyle`
               }
             }
           }
+          .new-topic-action {
+            margin-top: 20px;
+          }
           .ant-input-group-wrapper {
             width: 80%;
             height: 45px;

@@ -6,6 +6,8 @@ const routes = {
   testQuiz: "/test-quiz",
   testManager: "/test-manager",
   newTest: "/new-test",
+  listTopic: "/list-topic",
+  newTopic: "/new-topic",
 };
 
 export default routes;

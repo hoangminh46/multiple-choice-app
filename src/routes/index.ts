@@ -4,7 +4,9 @@ import UserLayout from "@/layout/userLayout/UserLayout";
 import Dashboard from "@/pages/Dashboard/Dashboard";
 import Exam from "@/pages/Exam/Exam";
 import Home from "@/pages/Home/Home";
+import ListTopic from "@/pages/ListTopic/ListTopic";
 import NewTest from "@/pages/NewTest/NewTest";
+import NewTopic from "@/pages/NewTopic/NewTopic";
 import TestManager from "@/pages/TestManager/TestManager";
 
 const publicRoutes = [
@@ -19,6 +21,8 @@ const publicRoutes = [
     layout: UserLayout,
   },
   { path: "/exam/:ExamId", components: Exam },
+  { path: routesConfig.listTopic, components: ListTopic, layout: UserLayout },
+  { path: routesConfig.newTopic, components: NewTopic, layout: UserLayout },
 ];
 
 export { publicRoutes };

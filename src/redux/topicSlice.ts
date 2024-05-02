@@ -33,6 +33,19 @@ export const deleteTopicData = createAsyncThunk(
   }
 );
 
+export const addTopicData = createAsyncThunk("topic/addData", async (data) => {
+  await axios.post(`${apiUrl}/topics`, data);
+  return data;
+});
+
+export const editTopicData = createAsyncThunk(
+  "topic/editData",
+  async (data) => {
+    await axios.put(`${apiUrl}/topics/${data.id}`, data);
+    return data;
+  }
+);
+
 const topicSlice = createSlice({
   name: "topic",
   initialState,
@@ -40,15 +53,26 @@ const topicSlice = createSlice({
   extraReducers: (builder) => {
     builder.addCase(fetchTopicData.fulfilled, (state, action) => {
       state.topicList = action.payload;
-    }),
-      builder.addCase(deleteTopicData.fulfilled, (state, action) => {
-        const id = action.payload;
-        const index = state.topicList.findIndex((item) => item.id === id);
+    });
+    builder.addCase(deleteTopicData.fulfilled, (state, action) => {
+      const id = action.payload;
+      const index = state.topicList.findIndex((item) => item.id === id);
 
-        const deletedState = state.topicList;
-        deletedState.splice(index, 1);
-        state.topicList = deletedState;
-      });
+      const deletedState = state.topicList;
+      deletedState.splice(index, 1);
+      state.topicList = deletedState;
+    });
+    builder.addCase(addTopicData.fulfilled, (state, action) => {
+      state.topicList.push(action.payload);
+    });
+    builder.addCase(editTopicData.fulfilled, (state, action) => {
+      const editItemIndex = state.topicList.findIndex(
+        (item) => item.id === action.payload.id
+      );
+      const editedTopic = state.topicList;
+      editedTopic.splice(editItemIndex, 1, action.payload);
+      state.topicList = editedTopic;
+    });
   },
 });
 
