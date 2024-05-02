@@ -52,6 +52,14 @@ export const StylesNewTest = styled.div`
               font-size: 18px;
               margin-bottom: 14px;
             }
+            label {
+              display: block;
+              white-space: nowrap;
+              width: 90%;
+              max-width: 400px;
+              overflow: hidden;
+              text-overflow: ellipsis;
+            }
           }
         }
         .ant-input-group-addon {
@@ -112,7 +120,8 @@ export const StylesNewTest = styled.div`
         .new-test-action {
           flex-direction: column;
           align-items: flex-start;
-          gap: 10px;
+          gap: 4px;
+          margin-top: 6px;
           .ant-input-group-wrapper {
             width: 80%;
           }
@@ -120,12 +129,38 @@ export const StylesNewTest = styled.div`
         .question {
           margin-top: 10px !important;
           flex-direction: column;
+          gap: 20px !important;
           .question-item {
-            height: 150px !important;
+            padding: 6px !important;
+            height: 155px !important;
+            width: 100% !important;
+            .ant-pagination {
+              margin: 0;
+            }
+            .ant-empty-normal {
+              margin-block: 0;
+            }
+            li {
+              height: 24px;
+              min-width: 24px;
+              a {
+                line-height: normal;
+              }
+            }
+            th,
+            td {
+              padding: 4px !important;
+            }
             .question-heading {
-              margin-bottom: 0;
+              margin-bottom: 4px !important;
+            }
+            label {
+              max-width: 250px !important;
             }
           }
+        }
+        .btn-add {
+          margin-top: 6px !important;
         }
       }
     }

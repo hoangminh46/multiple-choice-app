@@ -111,6 +111,21 @@ export default function NewTest() {
     }
   }, [groupQuestionValue]);
 
+  useEffect(() => {
+    function handleResize() {
+      if (window.innerWidth <= 575) {
+        setPageSize(2);
+      } else {
+        setPageSize(4);
+      }
+    }
+    handleResize();
+    window.addEventListener("resize", handleResize);
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []);
+
   function handleAddTest() {
     if (testName && !isNaN(Number(testTime)) && testDifficult) {
       const data = {
@@ -251,7 +266,7 @@ export default function NewTest() {
                     onChange: handlePageQuestionChange,
                     onShowSizeChange: handlePageQuestionSizeChange,
                   }}
-                  // scroll={tableLength >= 6 ? { y: 300 } : undefined}
+                  // scroll={{ y: 300 }}
                 />
               </div>
               <div className="question-item">
