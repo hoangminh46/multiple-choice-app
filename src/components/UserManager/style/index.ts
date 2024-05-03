@@ -90,7 +90,6 @@ export const StylesUserManager = styled.div`
       bottom: 2%;
       left: 55%;
       transform: translate(-50%, -50%);
-      
     }
     @media ${device.lg} {
       .manager-search {

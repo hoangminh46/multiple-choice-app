@@ -399,4 +399,53 @@ export const GlobalStyle = createGlobalStyle`
           }
         }
       }
+
+    .edit-topic-modal{
+      width: 40% !important;
+      .ant-modal-content{
+        background-color: #F5D4D4;
+      }
+      input{
+        width: 75%;
+      }
+      .modal-item{
+        padding: 8px 14px;
+        border: 1px solid #000;
+        border-radius: 4px;
+        display: inline-block;
+        background-color: #F3F1F1;
+      }
+      .modal-question{
+        display: flex;
+        gap: 30px;
+      }
+      .modal-answer{
+        padding: 0 40px;
+        margin-top: 30px;
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        .item-answer{
+          display: flex;
+          gap: 30px;
+        }
+      }
+      .modal-input{
+        display: flex;
+        margin-top: 30px;
+        gap: 30px;
+        label{
+          margin-left: 4px;
+        }
+        .input-section{
+          display: flex;
+        }
+      }
+      .input-action{
+        display: flex;
+        margin-top: 20px;
+        gap: 30px;
+        justify-content: center;
+      }
+    }
 `;

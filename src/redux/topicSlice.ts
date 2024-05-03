@@ -12,10 +12,12 @@ interface ApiResponse {
 
 interface TestState {
   topicList: object[];
+  topicQuestions: [];
 }
 
 const initialState: TestState = {
   topicList: [],
+  topicQuestions: [],
 };
 
 export const fetchTopicData = createAsyncThunk("topic/fetchData", async () => {
@@ -46,6 +48,29 @@ export const editTopicData = createAsyncThunk(
   }
 );
 
+export const fetchQuestions = createAsyncThunk(
+  "topic/fetchQuestions",
+  async (topicId, thunkAPI) => {
+    try {
+      const response = await fetch(`${apiUrl}/topics/${topicId}/questions`);
+      const data = await response.json();
+      return data.questions;
+    } catch (error) {
+      return thunkAPI.rejectWithValue(error.message);
+    }
+  }
+);
+
+export const deleteQuestionData = createAsyncThunk(
+  "topic/deleteQuestionData",
+  async (idList) => {
+    await axios.delete(
+      `${apiUrl}/topics/${idList.topicID}/questions/${idList.questionID}`
+    );
+    return idList.questionID;
+  }
+);
+
 const topicSlice = createSlice({
   name: "topic",
   initialState,
@@ -72,6 +97,17 @@ const topicSlice = createSlice({
       const editedTopic = state.topicList;
       editedTopic.splice(editItemIndex, 1, action.payload);
       state.topicList = editedTopic;
+    });
+    builder.addCase(fetchQuestions.fulfilled, (state, action) => {
+      state.topicQuestions = action.payload;
+    });
+    builder.addCase(deleteQuestionData.fulfilled, (state, action) => {
+      const id = action.payload;
+      const index = state.topicQuestions.findIndex((item) => item.id === id);
+
+      const deletedState = state.topicQuestions;
+      deletedState.splice(index, 1);
+      state.topicQuestions = deletedState;
     });
   },
 });
