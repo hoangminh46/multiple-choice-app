@@ -8,7 +8,7 @@ export const StylesTestItem = styled.div`
     width: 90%;
   }
   .test-item {
-    width: 100%;
+    width: 80%;
     height: 100%
     box-sizing: border-box;
     padding: 20px;
@@ -17,6 +17,13 @@ export const StylesTestItem = styled.div`
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+    a{
+      display: block;
+      width: 85%;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
     .item-name {
       font-size: 20px;
       font-weight: 500;

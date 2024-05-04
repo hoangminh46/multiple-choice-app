@@ -14,7 +14,7 @@ type FieldType = {
 
 export default function Login() {
   const navigate = useNavigate();
-  const onFinish: FormProps<FieldType>["onFinish"] = (values) => {
+  const onFinish: FormProps<FieldType>["onFinish"] = () => {
     navigate(routes.dashboard);
   };
 

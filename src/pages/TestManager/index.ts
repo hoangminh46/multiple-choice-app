@@ -72,6 +72,12 @@ export const StylesTestManager = styled.div`
             overflow: hidden;
             text-overflow: ellipsis;
           }
+          .ant-table {
+            background-color: #c4c4c4;
+          }
+          .ant-table-container {
+            height: 50vh;
+          }
           .ant-table-cell {
             background: #c4c4c4;
             font-size: 20px;
