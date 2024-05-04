@@ -61,6 +61,17 @@ export const fetchQuestions = createAsyncThunk(
   }
 );
 
+export const editQuestionData = createAsyncThunk(
+  "topic/editQuestionData",
+  async (data) => {
+    await axios.put(
+      `${apiUrl}/topics/${data.topicId}/questions/${data.question.id}`,
+      data.question
+    );
+    return data.question;
+  }
+);
+
 export const deleteQuestionData = createAsyncThunk(
   "topic/deleteQuestionData",
   async (idList) => {
@@ -68,6 +79,17 @@ export const deleteQuestionData = createAsyncThunk(
       `${apiUrl}/topics/${idList.topicID}/questions/${idList.questionID}`
     );
     return idList.questionID;
+  }
+);
+
+export const addQuestionData = createAsyncThunk(
+  "topic/addQuestionData",
+  async (data) => {
+    await axios.post(
+      `${apiUrl}/topics/${data.topicId}/questions`,
+      data.question
+    );
+    return data.question;
   }
 );
 
@@ -108,6 +130,17 @@ const topicSlice = createSlice({
       const deletedState = state.topicQuestions;
       deletedState.splice(index, 1);
       state.topicQuestions = deletedState;
+    });
+    builder.addCase(editQuestionData.fulfilled, (state, action) => {
+      const editItemIndex = state.topicQuestions.findIndex(
+        (item) => item.id === action.payload.id
+      );
+      const editedQuestion = state.topicQuestions;
+      editedQuestion.splice(editItemIndex, 1, action.payload);
+      state.topicQuestions = editedQuestion;
+    });
+    builder.addCase(addQuestionData.fulfilled, (state, action) => {
+      state.topicQuestions.push(action.payload);
     });
   },
 });

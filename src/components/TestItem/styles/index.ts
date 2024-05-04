@@ -50,9 +50,13 @@ export const StylesTestItem = styled.div`
       width: auto;
       height: 100px;
       font-size: 12px;
+      padding: 10px 20px;
       a {
         font-size: 16px !important;
       }
+    }
+    .item-star {
+      margin-top: 10px !important;
     }
   }
 `;

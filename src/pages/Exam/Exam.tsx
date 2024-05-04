@@ -204,7 +204,7 @@ export default function Exam() {
                       <Space direction="vertical">
                         {item.options.map((item: string, index: number) => (
                           <Radio value={index} key={index}>
-                            {item}
+                            {`${String.fromCharCode(65 + index)}. ${item}`}
                           </Radio>
                         ))}
                       </Space>
@@ -302,9 +302,17 @@ export default function Exam() {
               />
             ))}
           </div>
-          <Button className="btn-submit" onClick={showModal}>
-            Nộp bài
-          </Button>
+          <div className="btn-exam-action">
+            <Button
+              className="btn-submit"
+              onClick={() => setIsModalOpenList(false)}
+            >
+              Huỷ
+            </Button>
+            <Button className="btn-submit" onClick={showModal}>
+              Nộp bài
+            </Button>
+          </div>
         </div>
       </Modal>
     </StylesExam>

@@ -121,12 +121,12 @@ export const StylesExam = styled.div`
         gap: 20px 13px;
       }
       .btn-submit {
-        width: 233px;
-        height: 82px;
+        width: 223px;
+        height: 72px;
         border-radius: 41px;
         background-color: #9f9d9f;
         span {
-          font-size: 24px;
+          font-size: 20px;
           font-weight: 700;
         }
       }

@@ -140,7 +140,7 @@ export const StylesDashboard = styled.div`
     .quiz-list {
       flex: unset !important;
       margin-top: 10px !important;
-      gap: 30px !important;
+      gap: 20px !important;
       padding: 12px 8px !important;
       height: 65vh;
     }

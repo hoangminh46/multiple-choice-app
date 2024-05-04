@@ -196,6 +196,21 @@ export default function TestManager() {
   }, [apiTopicData]);
 
   useEffect(() => {
+    function handleResize() {
+      if (window.innerWidth <= 575) {
+        setPageSize(2);
+      } else {
+        setPageSize(4);
+      }
+    }
+    handleResize();
+    window.addEventListener("resize", handleResize);
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []);
+
+  useEffect(() => {
     if (groupQuestionValue) {
       const listQuestion = topicData.find((item) => {
         return item.id === groupQuestionValue;

@@ -65,6 +65,13 @@ export const StylesTestManager = styled.div`
           flex-direction: column;
           background-color: #d9d9d9;
           gap: 20px;
+          table td:nth-child(2) {
+            width: 50%;
+            max-width: 120px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+          }
           .ant-table-cell {
             background: #c4c4c4;
             font-size: 20px;
@@ -172,9 +179,9 @@ export const StylesTestManager = styled.div`
     }
     @media ${device.sm} {
       .item-action {
-        width: 16px;
+        width: 40px;
         height: 16px;
-        gap: 16px;
+        gap: 4px;
         img {
           width: 100%;
           height: 100%;

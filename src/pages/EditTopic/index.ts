@@ -73,6 +73,7 @@ export const StylesEditTopic = styled.div`
             width: 75%;
             display: flex;
             justify-content: space-between;
+
             .item-action {
               display: flex;
               align-items: center;
@@ -159,7 +160,20 @@ export const StylesEditTopic = styled.div`
         }
       }
       .manager-pagination {
-        width: 195px;
+        display: inline-block;
+        width: 100%;
+        text-align: center;
+      }
+    }
+    @media ${device.sm} {
+      .item-desc p {
+        width: 240px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+      .item-action {
+        gap: 10px !important;
       }
     }
   }
